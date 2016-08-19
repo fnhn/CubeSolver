@@ -210,15 +210,19 @@ $(document).ready(function(){
 			mY=e.pageY;
 			md=2;
 		}else if(!md){
+
+			if(isWeiXin()) {
+				alert("微信浏览器中不支持拖动转向，可点击左上角打乱按钮对魔方进行打乱");
+				return;
+			}
+
 			mX=e.pageX-mX;
 			mY=e.pageY-mY;
 			md=2;
 			if(Math.abs(mX)>50||Math.abs(mY)>50){
 				if(sfID!=""){
 
-					if(isWeiXin()) {
-						alert("微信浏览器中不支持拖动转向，可点击左上角打乱按钮对魔方进行打乱");
-					}
+
 
 					//转动一层
 					switch(parseInt(sfID.charAt(2))){
