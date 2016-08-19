@@ -24,6 +24,15 @@ $(document).ready(function(){
 
 	function trimStr(str){return str.replace(/(^\s*)|(\s*$)/g,"");}
 
+	function isWeiXin(){ 
+		var ua = window.navigator.userAgent.toLowerCase(); 
+		if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
+			return true; 
+		}else{ 
+			return false; 
+		} 
+	} 
+
 	function printInfo() {
 		console.log("U:" + state["U"]);
 		console.log("R:" + state["R"]);
@@ -194,6 +203,11 @@ $(document).ready(function(){
 	//拖动转向
 	var md=2;
 	$(document).mousemove(function(e){
+
+		if(isWeiXin()) {
+			alert("微信浏览器中不支持拖动转向，可点击左上角打乱按钮对魔方进行打乱");
+		}
+
 		if(md==1){
  		    mX=e.pageX;
 			mY=e.pageY;
@@ -435,50 +449,7 @@ $(document).ready(function(){
 	}
 	
 	//左右中
-	function lrm(x){
-		console.log("左右中");
-	if(!r_switch){
-			r_switch=1;
-			var timer_=setTimeout(function(){r_switch=0},500);
-		if(x>0) {
-			console.log("顺时针");
-			for(j=4;j<=6;j++){
-				$("#sf1_"+j).css("-webkit-transform",subface[4][j][2]+" translateZ(150px)");
-				$("#sf2_"+j).css("-webkit-transform",subface[3][j][2]+" translateZ(150px)");
-				$("#sf3_"+j).css("-webkit-transform",subface[1][j][2]+" translateZ(150px)");
-				$("#sf4_"+j).css("-webkit-transform",subface[2][j][2].replace("Y(180","Y(-180")+" translateZ(150px)");		
-				
-				$("#sf1_"+j).css("-moz-transform",subface[4][j][2]+" translateZ(150px)");
-				$("#sf2_"+j).css("-moz-transform",subface[3][j][2]+" translateZ(150px)");
-				$("#sf3_"+j).css("-moz-transform",subface[1][j][2]+" translateZ(150px)");
-				$("#sf4_"+j).css("-moz-transform",subface[2][j][2].replace("Y(180","Y(-180")+" translateZ(150px)");	
-				col=subface[1][j][1];
-				subface[1][j][1]=subface[3][j][1];
-				subface[3][j][1]=subface[2][j][1];
-				subface[2][j][1]=subface[4][j][1];
-				subface[4][j][1]=col;
-			}
-		}
-		else
-			for(j=4;j<=6;j++){
-				$("#sf1_"+j).css("-webkit-transform",subface[3][j][2]+" translateZ(150px)");
-				$("#sf2_"+j).css("-webkit-transform",subface[4][j][2].replace("Y(-90","Y(270")+" translateZ(150px)");
-				$("#sf3_"+j).css("-webkit-transform",subface[2][j][2]+" translateZ(150px)");
-				$("#sf4_"+j).css("-webkit-transform",subface[1][j][2]+" translateZ(150px)");		
-				
-				$("#sf1_"+j).css("-moz-transform",subface[3][j][2]+" translateZ(150px)");
-				$("#sf2_"+j).css("-moz-transform",subface[4][j][2].replace("Y(-90","Y(270")+" translateZ(150px)");
-				$("#sf3_"+j).css("-moz-transform",subface[2][j][2]+" translateZ(150px)");
-				$("#sf4_"+j).css("-moz-transform",subface[1][j][2]+" translateZ(150px)");	
-				col=subface[4][j][1];
-				subface[4][j][1]=subface[2][j][1];
-				subface[2][j][1]=subface[3][j][1];
-				subface[3][j][1]=subface[1][j][1];
-				subface[1][j][1]=col;
-			}
-		var timer_=setTimeout(function(){addsf();},500);
-	}
-	}
+	
 	
 	//左右下
 	function lrb(x){
@@ -593,50 +564,7 @@ $(document).ready(function(){
 	}
 	
 	//下上中
-	function bum(x){
-		console.log("下上中bum");
-	if(!r_switch){
-			r_switch=1;
-			var timer_=setTimeout(function(){r_switch=0},500);
-		if(x>0) {
-			console.log("顺时针");
-			for(j=2;j<=8;j+=3){
-				$("#sf1_"+j).css("-webkit-transform",subface[5][j][2]+" translateZ(150px)");
-				$("#sf2_"+(10-j)).css("-webkit-transform",subface[2][10-j][2].replace("deg)","deg) rotateX(270deg)")+" translateZ(150px)");
-				$("#sf5_"+j).css("-webkit-transform",subface[5][j][2].replace("X(90","X(180")+" translateZ(150px)");
-				$("#sf6_"+j).css("-webkit-transform",subface[1][j][2]+" translateZ(150px)");		
-				
-				$("#sf1_"+j).css("-moz-transform",subface[5][j][2]+" translateZ(150px)");
-				$("#sf2_"+(10-j)).css("-moz-transform",subface[2][10-j][2].replace("deg)","deg) rotateX(270deg)")+" translateZ(150px)");
-				$("#sf5_"+j).css("-moz-transform",subface[5][j][2].replace("X(90","X(180")+" translateZ(150px)");
-				$("#sf6_"+j).css("-moz-transform",subface[1][j][2]+" translateZ(150px)");	
-				col=subface[1][j][1];
-				subface[1][j][1]=subface[6][j][1];
-				subface[6][j][1]=subface[2][10-j][1];
-				subface[2][10-j][1]=subface[5][j][1];
-				subface[5][j][1]=col;
-			}
-		}
-		else
-			for(j=2;j<=8;j+=3){
-				$("#sf1_"+j).css("-webkit-transform",subface[6][j][2]+" translateZ(150px)");
-				$("#sf2_"+(10-j)).css("-webkit-transform",subface[2][10-j][2].replace("deg)","deg) rotateX(90deg)")+" translateZ(150px)");
-				$("#sf5_"+j).css("-webkit-transform",subface[1][j][2]+" translateZ(150px)");
-				$("#sf6_"+j).css("-webkit-transform",subface[6][j][2].replace("X(-90","X(-180")+" translateZ(150px)");		
-				
-				$("#sf1_"+j).css("-moz-transform",subface[6][j][2]+" translateZ(150px)");
-				$("#sf2_"+(10-j)).css("-moz-transform",subface[2][10-j][2].replace("deg)","deg) rotateX(90deg)")+" translateZ(150px)");
-				$("#sf5_"+j).css("-moz-transform",subface[1][j][2]+" translateZ(150px)");
-				$("#sf6_"+j).css("-moz-transform",subface[6][j][2].replace("X(-90","X(-180")+" translateZ(150px)");	
-				col=subface[1][j][1];
-				subface[1][j][1]=subface[5][j][1];
-				subface[5][j][1]=subface[2][10-j][1];
-				subface[2][10-j][1]=subface[6][j][1];
-				subface[6][j][1]=col;
-			}
-		var timer_=setTimeout(function(){addsf();},500);
-	}
-	}
+	
 	
 	//下上右
 	function bur(x){
@@ -754,54 +682,7 @@ $(document).ready(function(){
 	}
 	
 	//下上中
-	function bufm(x){
-		console.log("下上中bufm");
-	if(!r_switch){
-			r_switch=1;
-			var timer_=setTimeout(function(){r_switch=0},500);
-		if(x>0) {
-			console.log("顺时针");
-			for(j=1;j<=3;j++){
-				$("#sf5_"+(j+3)).css("-webkit-transform",subface[5][j+3][2].replace("deg)","deg) rotateY(90deg)")+" translateZ(150px)");
-				$("#sf6_"+(j+3)).css("-webkit-transform",subface[6][j+3][2].replace("deg)","deg) rotateY(-90deg)") +" translateZ(150px)");
-				$("#sf3_"+(j*3-1)).css("-webkit-transform",subface[3][j*3-1][2].replace("deg)","deg) rotateX(-90deg)")+" translateZ(150px)");
-				$("#sf4_"+(j*3-1)).css("-webkit-transform",subface[4][j*3-1][2].replace("deg)","deg) rotateX(90deg)")+" translateZ(150px)");		
-				
-				
-				$("#sf5_"+(j+3)).css("-moz-transform",subface[5][j+3][2].replace("deg)","deg) rotateY(90deg)")+" translateZ(150px)");
-				$("#sf6_"+(j+3)).css("-moz-transform",subface[6][j+3][2].replace("deg)","deg) rotateY(-90deg)") +" translateZ(150px)");
-				$("#sf3_"+(j*3-1)).css("-moz-transform",subface[3][j*3-1][2].replace("deg)","deg) rotateX(-90deg)")+" translateZ(150px)");
-				$("#sf4_"+(j*3-1)).css("-moz-transform",subface[4][j*3-1][2].replace("deg)","deg) rotateX(90deg)")+" translateZ(150px)");		
-				
-				col=subface[5][7-j][1];
-				subface[5][7-j][1]=subface[4][j*3-1][1];
-				subface[4][j*3-1][1]=subface[6][j+3][1];
-				subface[6][j+3][1]=subface[3][11-j*3][1];
-				subface[3][11-j*3][1]=col;
-			}
-		}
-		else
-			for(j=1;j<=3;j++){
-				$("#sf5_"+(j+3)).css("-webkit-transform",subface[5][j+3][2].replace("deg)","deg) rotateY(-90deg)")+" translateZ(150px)");
-				$("#sf6_"+(j+3)).css("-webkit-transform",subface[6][j+3][2].replace("deg)","deg) rotateY(90deg)") +" translateZ(150px)");
-				$("#sf3_"+(j*3-1)).css("-webkit-transform",subface[3][j*3-1][2].replace("deg)","deg) rotateX(90deg)")+" translateZ(150px)");
-				$("#sf4_"+(j*3-1)).css("-webkit-transform",subface[4][j*3-1][2].replace("deg)","deg) rotateX(-90deg)")+" translateZ(150px)");		
-				
-				
-				$("#sf5_"+(j+3)).css("-moz-transform",subface[5][j+3][2].replace("deg)","deg) rotateY(-90deg)")+" translateZ(150px)");
-				$("#sf6_"+(j+3)).css("-moz-transform",subface[6][j+3][2].replace("deg)","deg) rotateY(90deg)") +" translateZ(150px)");
-				$("#sf3_"+(j*3-1)).css("-moz-transform",subface[3][j*3-1][2].replace("deg)","deg) rotateX(90deg)")+" translateZ(150px)");
-				$("#sf4_"+(j*3-1)).css("-moz-transform",subface[4][j*3-1][2].replace("deg)","deg) rotateX(-90deg)")+" translateZ(150px)");		
-				
-				col=subface[5][7-j][1];
-				subface[5][7-j][1]=subface[3][11-j*3][1];
-				subface[3][11-j*3][1]=subface[6][j+3][1];
-				subface[6][j+3][1]=subface[4][j*3-1][1];
-				subface[4][j*3-1][1]=col;
-			}
-		var timer_=setTimeout(function(){addsf();},500);
-	}
-	}
+	
 	
 	//下上后
 	function bub(x){
@@ -898,7 +779,7 @@ $(document).ready(function(){
 			case 4:
 			case 5:
 			case 6:
-				lrm(xx);
+				//lrm(xx);
 				break;
 			case 7:
 			case 8:
@@ -917,7 +798,7 @@ $(document).ready(function(){
 			case 2:
 			case 5:
 			case 8:
-				bum(xx);
+				//bum(xx);
 				break;
 			case 3:
 			case 6:
@@ -936,7 +817,7 @@ $(document).ready(function(){
 			case 2:
 			case 5:
 			case 8:
-				bum(xx);
+				//bum(xx);
 				break;
 			case 3:
 			case 6:
@@ -955,7 +836,7 @@ $(document).ready(function(){
 			case 4:
 			case 5:
 			case 6:
-				bufm(xx);
+				//bufm(xx);
 				break;
 			case 7:
 			case 8:
@@ -974,7 +855,7 @@ $(document).ready(function(){
 			case 4:
 			case 5:
 			case 6:
-				bufm(xx);
+				//bufm(xx);
 				break;
 			case 7:
 			case 8:
@@ -993,7 +874,7 @@ $(document).ready(function(){
 			case 2:
 			case 5:
 			case 8:
-				bufm(xx);
+				//bufm(xx);
 				break;
 			case 1:
 			case 4:
@@ -1012,7 +893,7 @@ $(document).ready(function(){
 			case 2:
 			case 5:
 			case 8:
-				bufm(xx);
+				//bufm(xx);
 				break;
 			case 1:
 			case 4:
